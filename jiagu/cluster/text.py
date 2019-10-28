@@ -1,12 +1,11 @@
 # coding: utf-8
-from collections import OrderedDict
-
 from .base import count_features, tfidf_features
 from .dbscan import DBSCAN
 from .kmeans import KMeans
 
 
-def text_cluster(docs, features_method='tfidf', method="k-means", k=None, max_iter=100, eps=None, min_pts=None):
+def text_cluster(docs, features_method='tfidf', method="dbscan",
+                 k=3, max_iter=100, eps=0.5, min_pts=2, tokenizer=list):
     """文本聚类，目前支持 K-Means 和 DBSCAN 两种方法
 
     :param features_method: str
@@ -23,18 +22,18 @@ def text_cluster(docs, features_method='tfidf', method="k-means", k=None, max_it
         dbscan 参数，邻域距离
     :param min_pts:
         dbscan 参数，核心对象中的最少样本数量
-    :return: OrderedDict
+    :return: dict
         聚类结果
     """
     if features_method == 'tfidf':
-        features, names = tfidf_features(docs)
+        features, names = tfidf_features(docs, tokenizer)
     elif features_method == 'count':
-        features, names = count_features(docs)
+        features, names = count_features(docs, tokenizer)
     else:
         raise ValueError('features_method error')
 
     # feature to doc
-    f2d = {k: v.tolist() for k, v in zip(docs, features)}
+    f2d = {k: v for k, v in zip(docs, features)}
 
     if method == 'k-means':
         km = KMeans(k=k, max_iter=max_iter)
@@ -47,7 +46,7 @@ def text_cluster(docs, features_method='tfidf', method="k-means", k=None, max_it
     else:
         raise ValueError("method invalid, please use 'k-means' or 'dbscan'")
 
-    clusters_out = OrderedDict()
+    clusters_out = {}
 
     for label, examples in clusters.items():
         c_docs = []
@@ -58,7 +57,3 @@ def text_cluster(docs, features_method='tfidf', method="k-means", k=None, max_it
         clusters_out[label] = list(set(c_docs))
 
     return clusters_out
-
-
-
-

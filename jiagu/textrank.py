@@ -1,13 +1,4 @@
 # -*- encoding:utf-8 -*-
-"""
- * Copyright (C) 2017 OwnThink.
- *
- * Name        : textrank.py - 解析
- * Author      : zengbin93 <zeng_bin8888@163.com>
- * Version     : 0.01
- * Description : TextRank算法实现
- special thanks to https://github.com/ArtistScript/FastTextRank
-"""
 import sys
 import numpy as np
 from jiagu import utils
@@ -78,11 +69,8 @@ class Keywords(object):
                                        tol=self.__tol)
         sent_selected = nlargest(n, zip(scores, count()))
         sent_index = []
-        for i in range(n):
-            try:
-                sent_index.append(sent_selected[i][1])
-            except:
-                pass
+        for i in range(min(len(sent_selected), n)):
+            sent_index.append(sent_selected[i][1])
         return [index_word[i] for i in sent_index]
 
 

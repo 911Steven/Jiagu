@@ -23,20 +23,21 @@
 
 ---
 
-### 安装方式
+## 安装方式
 pip安装
 ```shell
 pip install -U jiagu
 ```
+如果比较慢，可以使用清华的pip源：`-i https://pypi.tuna.tsinghua.edu.cn/simple`
+
 源码安装
 ```shell
 git clone https://github.com/ownthink/Jiagu
 cd Jiagu
 python3 setup.py install
 ```
-注意：深度学习模型使用1.6训练的，不支持tensorflow 2.0
 
-### 使用方式
+## 使用方式
 1. 快速上手：分词、词性标注、命名实体识别
 ```python3
 import jiagu
@@ -51,42 +52,21 @@ print(words)
 pos = jiagu.pos(words) # 词性标注
 print(pos)
 
-ner = jiagu.ner(text) # 命名实体识别
+ner = jiagu.ner(words) # 命名实体识别
 print(ner)
 ```
 
 2. 中文分词
-
-自定义分词模型（将单独提供msr、pku、cnc等分词标准）
 ```python3
 import jiagu
 
-# 独立标准模型路径
-# msr：test/extra_data/model/msr.model
-# pku：test/extra_data/model/pku.model
-# cnc：test/extra_data/model/cnc.model
+text = '汉服和服装、维基图谱'
 
-jiagu.load_model('test/extra_data/model/cnc.model') # 使用国家语委分词标准
-
-words = jiagu.cut('结婚的和尚未结婚的')
-
-print(words)
-```
-
-分词各种模式使用方式
-```python3
-import jiagu
-
-text = '汉服和服装、知识图谱机器人'
-
-words = jiagu.cut(text) # 深度学习分词
-print(words)
-
-words = jiagu.seg(text) # 字典分词
+words = jiagu.seg(text)
 print(words)
 
 # jiagu.load_userdict('dict/user.dict') # 加载自定义字典，支持字典路径、字典列表形式。
-jiagu.load_userdict(['知识图谱'])
+jiagu.load_userdict(['汉服和服装'])
 
 words = jiagu.seg(text) # 自定义分词，字典分词模式有效
 print(words)
@@ -97,7 +77,7 @@ print(words)
 import jiagu
 
 # 吻别是由张学友演唱的一首歌曲。
-# 苏州大学（Soochow University），简称“苏大”，坐落于历史文化名城苏州。
+# 苏州大学简称“苏大”，坐落于历史文化名城苏州。
 # 《盗墓笔记》是2014年欢瑞世纪影视传媒股份有限公司出品的一部网络季播剧，改编自南派三叔所著的同名小说，由郑保瑞和罗永昌联合导演，李易峰、杨洋、唐嫣、刘天佐、张智尧、魏巍等主演。
 
 text = '姚明（Yao Ming），1980年9月12日出生于上海市徐汇区，祖籍江苏省苏州市吴江区震泽镇，前中国职业篮球运动员，司职中锋，现任中职联公司董事长兼总经理。'
@@ -167,7 +147,7 @@ cluster = jiagu.text_cluster(docs)
 print(cluster)
 ```
 
-### 评价标准
+## 评价标准
 1. msr测试结果（旧版本）
 
 ![msr](https://github.com/ownthink/evaluation/blob/master/images/2.png)
@@ -220,7 +200,7 @@ B-LOC、I-LOC   地名
 B-ORG、I-ORG   机构名
 ```
 
-### 加入我们
+## 加入我们
 思知人工智能群QQ群：90780053，微信群联系作者微信：MrYener，作者邮箱联系方式：help@ownthink.com
 
 <p>捐赠作者(您的鼓励是作者开源最大的动力！！！)：<a href="https://github.com/ownthink/Jiagu/wiki/donation"target="_blank">捐赠致谢</a> </p>
@@ -228,7 +208,7 @@ B-ORG、I-ORG   机构名
 ![收款码](https://github.com/ownthink/KnowledgeGraph/raw/master/img/%E6%94%B6%E6%AC%BE%E7%A0%81.jpg)
 
 
-### 贡献者：
+## 贡献者：
 1. [Yener](https://github.com/ownthink)
 2. [zengbin93](https://github.com/zengbin93)
 3. [dirtdust](https://github.com/dirtdust)
